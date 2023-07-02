@@ -1,0 +1,32 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_tags %}
+{% load custom_filters %}
+{% load censor_filters %}
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+<h1>Новость</h1>
+<h3>{{ post }}</h3>
+<h3>{{ time_now|date:'D m Y' }}</h3>
+<h3>{% current_time '%b %d %Y' %}</h3>
+{{ post.content }}
+
+<h2>Комментарии:</h2>
+{% for comment in post.comment_set.all %}
+  <div>
+    <p><strong>{{ comment.user.username }}:</strong></p>
+    <p>{{ comment.text|censor }}</p>
+    <p>{{ comment.creation_date_time }}</p>
+  </div>
+{% empty %}
+  <p>Комментариев нет.</p>
+{% endfor %}
+
+
+{% endblock content %}
+
+
